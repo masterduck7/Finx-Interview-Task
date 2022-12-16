@@ -13,7 +13,8 @@ module.exports = {
     },
     output: {
         path: BUILD_DIR,
-        filename: '[name].[contenthash].js'
+        filename: '[name].[contenthash].js',
+        clean: true,
     },
     devServer: {
         static: {
