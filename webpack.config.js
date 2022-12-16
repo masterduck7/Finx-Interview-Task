@@ -15,6 +15,14 @@ module.exports = {
         path: BUILD_DIR,
         filename: '[name].[contenthash].js'
     },
+    devServer: {
+        static: {
+            directory: path.resolve(__dirname + 'dist')
+        },
+        port: 3000,
+        hot: true,
+        compress: true,
+    },
     module: {
         rules: [
             {
