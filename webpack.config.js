@@ -1,16 +1,19 @@
 const path = require('path');
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { title } = require('process');
 
-const BUILD_DIR = path.resolve(__dirname, './public/build/');
 const APP_DIR = path.resolve(__dirname, './src');
+const BUILD_DIR = path.resolve(__dirname, './dist');
 
 module.exports = {
+    mode: 'development',
     entry: {
-        main: APP_DIR + '/index.js'
+        bundle: APP_DIR + '/index.js'
     },
     output: {
-        filename: 'bundle.js',
-        path: BUILD_DIR
+        path: BUILD_DIR,
+        filename: '[name].[contenthash].js'
     },
     module: {
         rules: [
@@ -23,9 +26,22 @@ module.exports = {
                         presets: ['@babel/react']
                     }
                 }
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },
+    plugins: [
+        new HtmlWebpackPlugin(
+            {
+                title: 'Finx App',
+                filename: 'index.html',
+                template: 'src/template.html',
+            }
+        )
+    ],
     optimization: {
         minimize: true,
         minimizer: [
