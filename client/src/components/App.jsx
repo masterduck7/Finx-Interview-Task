@@ -21,7 +21,6 @@ class App extends React.Component {
     getProductById = async (id) => {
         await axios.get('/products/' + id)
             .then(response => {
-                console.log(response.data)
                 this.setState({ productData: response.data })
             })
             .catch((error) => {
