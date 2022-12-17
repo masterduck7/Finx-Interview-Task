@@ -1,11 +1,33 @@
 const axios = require('axios')
 const React = require('react');
 import './App.scss';
+import Products from './products/products.jsx';
+
 
 class App extends React.Component {
     constructor() {
         super()
-        this.state = ({ categories: [], productsFiltered: [], productData: {} })
+        this.state = ({ categories: [], productsFiltered: { "products": [] }, productData: {} })
+    }
+
+    getCategories = async () => {
+        await axios.get('/categories')
+            .then(response => {
+                this.setState({ categories: response.data })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    getAllProducts = async () => {
+        await axios.get('/products')
+            .then(response => {
+                this.setState({ productsFiltered: response.data })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     getProductsByCategory = async (name) => {
@@ -21,7 +43,6 @@ class App extends React.Component {
     getProductById = async (id) => {
         await axios.get('/products/' + id)
             .then(response => {
-                console.log(response.data)
                 this.setState({ productData: response.data })
             })
             .catch((error) => {
@@ -30,18 +51,15 @@ class App extends React.Component {
     }
 
     componentDidMount = async () => {
-        await axios.get('/categories')
-            .then(response => {
-                this.setState({ categories: response.data })
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        await this.getAllProducts();
     }
 
     render() {
         return (
-            <h1 className='titleApp'>Finx React</h1>
+            <div>
+                <h1 className='titleApp'>Finx React</h1>
+                <Products productsFiltered={this.state.productsFiltered} />
+            </div>
         )
     }
 }
