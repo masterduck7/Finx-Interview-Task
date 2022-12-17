@@ -25,7 +25,7 @@ router.get('/products', async (req, res) => {
 });
 
 router.get('/products/category/:name', async (req, res) => {
-    await axios.get(`https://dummyjson.com/products/category/?limit=${LIMIT_DATA}` + req.params.name)
+    await axios.get('https://dummyjson.com/products/category/' + req.params.name + `/?limit=${LIMIT_DATA}`)
         .then(response => {
             res.status(200).send(response.data)
         })
