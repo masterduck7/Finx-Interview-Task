@@ -5,7 +5,27 @@ import './App.scss';
 class App extends React.Component {
     constructor() {
         super()
-        this.state = ({ categories: [], productsFiltered: [], productData: {} })
+        this.state = ({ categories: [], productsFiltered: [], productData: { "products": [] } })
+    }
+
+    getCategories = async () => {
+        await axios.get('/categories')
+            .then(response => {
+                this.setState({ categories: response.data })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    getAllProducts = async () => {
+        await axios.get('/products')
+            .then(response => {
+                this.setState({ productsFiltered: response.data })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     getProductsByCategory = async (name) => {
@@ -29,18 +49,14 @@ class App extends React.Component {
     }
 
     componentDidMount = async () => {
-        await axios.get('/categories')
-            .then(response => {
-                this.setState({ categories: response.data })
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        await this.getCategories();
     }
 
     render() {
         return (
-            <h1 className='titleApp'>Finx React</h1>
+            <div>
+                <h1 className='titleApp'>Finx React</h1>
+            </div>
         )
     }
 }
