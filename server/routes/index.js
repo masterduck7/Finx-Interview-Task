@@ -15,7 +15,8 @@ router.get('/categories', async (req, res) => {
 });
 
 router.get('/products', async (req, res) => {
-    await axios.get(`https://dummyjson.com/products/?limit=${LIMIT_DATA}`)
+    const url = `https://dummyjson.com/products/?limit=${LIMIT_DATA}&skip=${(req.headers["skip"]) * req.headers["pagesize"]}`
+    await axios.get(url)
         .then(response => {
             res.status(200).send(response.data)
         })
@@ -25,7 +26,8 @@ router.get('/products', async (req, res) => {
 });
 
 router.get('/products/category/:name', async (req, res) => {
-    await axios.get('https://dummyjson.com/products/category/' + req.params.name + `/?limit=${LIMIT_DATA}`)
+    const url = 'https://dummyjson.com/products/category/' + req.params.name + `/?limit=${LIMIT_DATA}` + `&skip=${(req.headers["skip"]) * req.headers["pagesize"]}`
+    await axios.get(url)
         .then(response => {
             res.status(200).send(response.data)
         })
