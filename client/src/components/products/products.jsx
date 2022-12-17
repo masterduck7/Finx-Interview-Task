@@ -1,4 +1,5 @@
 const React = require('react');
+import './products.scss';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,6 +13,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Grid from '@mui/material/Unstable_Grid2';
 
 
 const style = {
@@ -87,23 +89,39 @@ class Products extends React.Component {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
-                        <p>Title: {this.state.selectedProduct["title"]}</p>
-                        <p>Description: {this.state.selectedProduct["description"]}</p>
-                        <p>Price: {this.state.selectedProduct["price"]}</p>
-                        <p>Discount Percentage: {this.state.selectedProduct["discountPercentage"]}</p>
-                        <p>Rating: {this.state.selectedProduct["rating"]}</p>
-                        <p>Stock: {this.state.selectedProduct["stock"]}</p>
-                        <p>Brand: {this.state.selectedProduct["brand"]}</p>
-                        <p>Category: {this.state.selectedProduct["category"]}</p>
-                        <p>Thumbnail: {this.state.selectedProduct["thumbnail"]}</p>
+                    <Box style={{ overflow: 'auto' }} sx={style}>
+                        <Grid container spacing={2}>
+                            <Grid xs={3}>
+                                <p>Title: {this.state.selectedProduct["title"]}</p>
+                            </Grid>
+                            <Grid xs={3}>
+                                <p>Price: {this.state.selectedProduct["price"]} <b className='discount'>({this.state.selectedProduct["discountPercentage"]} % OFF)</b></p>
+                            </Grid>
+                            <Grid xs={3}>
+                                <p>Stock: {this.state.selectedProduct["stock"]}</p>
+                            </Grid>
+                            <Grid xs={3}>
+                                <p>Rating: {this.state.selectedProduct["rating"]}</p>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                            <Grid xs={6}>
+                                <p>Description: {this.state.selectedProduct["description"]}</p>
+                            </Grid>
+                            <Grid xs={3}>
+                                <p>Brand: {this.state.selectedProduct["brand"]}</p>
+                            </Grid>
+                            <Grid xs={3}>
+                                <p>Category: {this.state.selectedProduct["category"]}</p>
+                            </Grid>
+                        </Grid>
                         <p>Images: </p>
-                        <ImageList cols={3} rowHeight={164}>
+                        <ImageList sx={{ width: '60vw' }} cols={3} gap={4}>
                             {this.state.selectedProduct["images"].map((image, id) => (
                                 <ImageListItem key={id}>
                                     <img
-                                        src={`${image}?w=164&h=164&fit=crop&auto=format`}
-                                        srcSet={`${image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                        src={`${image}?fit=contain&auto=format`}
+                                        srcSet={`${image}?fit=contain&auto=format&dpr=2 2x`}
                                         alt={id}
                                         loading="lazy"
                                     />
