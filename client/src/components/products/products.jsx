@@ -1,15 +1,12 @@
 const axios = require('axios');
 const React = require('react');
+import ProductDetail from '../productDetail/productDetail.jsx';
 import './products.scss';
 
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Modal from '@mui/material/Modal';
 import Pagination from '@mui/material/Pagination';
 import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
@@ -19,22 +16,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Grid from '@mui/material/Unstable_Grid2';
-
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '80vw',
-    height: '80vh',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    borderRadius: '10px',
-    boxShadow: 24,
-    p: 4,
-};
 
 
 class Products extends React.Component {
@@ -176,56 +157,8 @@ class Products extends React.Component {
                     </Table>
                 </TableContainer>
                 <Pagination count={this.state.numberPages} page={this.state.currentPage + 1} onChange={this.handlePaginationChange} variant="outlined" shape="rounded" />
-                <Modal
-                    open={this.state.modalDetails}
-                    onClose={this.handleCloseModal}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box style={{ overflow: 'auto' }} sx={style}>
-                        <Grid container spacing={2}>
-                            <Grid xs={3}>
-                                <p>Title: {this.state.selectedProduct["title"]}</p>
-                            </Grid>
-                            <Grid xs={3}>
-                                <p>Price: {this.state.selectedProduct["price"]} <b className='discount'>({this.state.selectedProduct["discountPercentage"]} % OFF)</b></p>
-                            </Grid>
-                            <Grid xs={3}>
-                                <p>Stock: {this.state.selectedProduct["stock"]}</p>
-                            </Grid>
-                            <Grid xs={3}>
-                                <p>Rating: {this.state.selectedProduct["rating"]}</p>
-                            </Grid>
-                        </Grid>
-                        <Grid container spacing={2}>
-                            <Grid xs={6}>
-                                <p>Description: {this.state.selectedProduct["description"]}</p>
-                            </Grid>
-                            <Grid xs={3}>
-                                <p>Brand: {this.state.selectedProduct["brand"]}</p>
-                            </Grid>
-                            <Grid xs={3}>
-                                <p>Category: {this.state.selectedProduct["category"]}</p>
-                            </Grid>
-                        </Grid>
-                        <p>Images: </p>
-                        <ImageList sx={{ width: '60vw' }} cols={3} gap={4}>
-                            {this.state.selectedProduct["images"].map((image, id) => (
-                                <ImageListItem key={id}>
-                                    <img
-                                        src={`${image}?fit=contain&auto=format`}
-                                        srcSet={`${image}?fit=contain&auto=format&dpr=2 2x`}
-                                        alt={id}
-                                        loading="lazy"
-                                    />
-                                </ImageListItem>
-                            ))}
-                        </ImageList>
-                        <center>
-                            <Button variant="contained" onClick={() => this.handleCloseModal()}>Close</Button>
-                        </center>
-                    </Box>
-                </Modal>
+
+                <ProductDetail product={this.state.selectedProduct} open={this.state.modalDetails} handleClose={this.handleCloseModal} />
             </div>
         )
     }
