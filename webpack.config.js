@@ -3,7 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { title } = require('process');
 
-const APP_DIR = path.resolve(__dirname, './src');
+const APP_DIR = path.resolve(__dirname, './client/src');
 const BUILD_DIR = path.resolve(__dirname, './dist');
 
 module.exports = {
@@ -47,7 +47,7 @@ module.exports = {
             {
                 title: 'Finx App',
                 filename: 'index.html',
-                template: 'src/template.html',
+                template: 'client/src/template.html',
             }
         )
     ],
