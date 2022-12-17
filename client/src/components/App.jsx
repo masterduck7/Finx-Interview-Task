@@ -1,11 +1,13 @@
 const axios = require('axios')
 const React = require('react');
 import './App.scss';
+import Products from './products/products.jsx';
+
 
 class App extends React.Component {
     constructor() {
         super()
-        this.state = ({ categories: [], productsFiltered: [], productData: { "products": [] } })
+        this.state = ({ categories: [], productsFiltered: { "products": [] }, productData: {} })
     }
 
     getCategories = async () => {
@@ -49,13 +51,14 @@ class App extends React.Component {
     }
 
     componentDidMount = async () => {
-        await this.getCategories();
+        await this.getAllProducts();
     }
 
     render() {
         return (
             <div>
                 <h1 className='titleApp'>Finx React</h1>
+                <Products productsFiltered={this.state.productsFiltered} />
             </div>
         )
     }
