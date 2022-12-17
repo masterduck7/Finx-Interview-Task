@@ -5,7 +5,18 @@ import './App.scss';
 class App extends React.Component {
     constructor() {
         super()
-        this.state = ({ categories: [] })
+        this.state = ({ categories: [], productsFiltered: [] })
+    }
+
+    getProductsByCategory = async (category) => {
+        await axios.get('/products/category/' + category)
+            .then(response => {
+                console.log(response.data)
+                this.setState({ productsFiltered: response.data })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     componentDidMount = async () => {
