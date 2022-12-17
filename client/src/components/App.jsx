@@ -3,11 +3,16 @@ const React = require('react');
 import './App.scss';
 import Products from './products/products.jsx';
 
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+
 
 class App extends React.Component {
     constructor() {
         super()
-        this.state = ({ categories: [], productsFiltered: { "products": [] }, productData: {} })
+        this.state = ({ categories: [], productsFiltered: { "products": [] }, productData: {}, selectedCategory: 'All' })
     }
 
     getCategories = async () => {
@@ -50,7 +55,19 @@ class App extends React.Component {
             })
     }
 
+    handleCategoryChange = async (event) => {
+        if (event.target.value != 'All') {
+            this.setState({ selectedCategory: event.target.value });
+            await this.getProductsByCategory(event.target.value);
+        } else {
+            this.setState({ selectedCategory: 'All' });
+            await this.getAllProducts();
+        }
+
+    }
+
     componentDidMount = async () => {
+        await this.getCategories();
         await this.getAllProducts();
     }
 
@@ -58,6 +75,21 @@ class App extends React.Component {
         return (
             <div>
                 <h1 className='titleApp'>Finx React</h1>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={this.state.selectedCategory}
+                        label="Filter by category"
+                        onChange={this.handleCategoryChange}
+                    >
+                        <MenuItem key={0} value={'All'}>All</MenuItem>
+                        {this.state.categories.map((category, id) => (
+                            <MenuItem key={id} value={category}>{category}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <Products productsFiltered={this.state.productsFiltered} />
             </div>
         )
