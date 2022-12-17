@@ -5,14 +5,24 @@ import './App.scss';
 class App extends React.Component {
     constructor() {
         super()
-        this.state = ({ categories: [], productsFiltered: [] })
+        this.state = ({ categories: [], productsFiltered: [], productData: {} })
     }
 
-    getProductsByCategory = async (category) => {
-        await axios.get('/products/category/' + category)
+    getProductsByCategory = async (name) => {
+        await axios.get('/products/category/' + name)
+            .then(response => {
+                this.setState({ productsFiltered: response.data })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    getProductById = async (id) => {
+        await axios.get('/products/' + id)
             .then(response => {
                 console.log(response.data)
-                this.setState({ productsFiltered: response.data })
+                this.setState({ productData: response.data })
             })
             .catch((error) => {
                 console.log(error)
