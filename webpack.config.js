@@ -1,7 +1,6 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { title } = require('process');
 
 const APP_DIR = path.resolve(__dirname, './client/src');
 const BUILD_DIR = path.resolve(__dirname, './dist');
