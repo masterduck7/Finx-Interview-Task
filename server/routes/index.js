@@ -1,16 +1,17 @@
+require("dotenv").config();
+
 const axios = require('axios')
 const express = require('express');
 const router = express.Router();
 
 const redis = require('redis')
 const client = redis.createClient({
-    host: '127.0.0.1',
-    port: 6379
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
 })
 client.connect();
 
-const REDIS_TIME = 300
-const LIMIT_DATA = 10
+const REDIS_TIME = process.env.REDIS_TIME
 
 async function checkCache(variable) {
     const data = await client.get(variable);
@@ -40,7 +41,7 @@ router.get('/products', async (req, res) => {
     if (products) {
         res.status(200).send(JSON.parse(products))
     } else {
-        const url = `https://dummyjson.com/products/?limit=${LIMIT_DATA}&skip=${(req.headers["skip"]) * req.headers["pagesize"]}`
+        const url = `https://dummyjson.com/products/?limit=10&skip=${(req.headers["skip"]) * req.headers["pagesize"]}`
         await axios.get(url)
             .then(response => {
                 client.setEx(`products-${req.headers["skip"]}`, REDIS_TIME, JSON.stringify(response.data))
@@ -57,7 +58,7 @@ router.get('/products/category/:name', async (req, res) => {
     if (products) {
         res.status(200).send(JSON.parse(products))
     } else {
-        const url = 'https://dummyjson.com/products/category/' + req.params.name + `/?limit=${LIMIT_DATA}` + `&skip=${(req.headers["skip"]) * req.headers["pagesize"]}`
+        const url = 'https://dummyjson.com/products/category/' + req.params.name + `/?limit=10` + `&skip=${(req.headers["skip"]) * req.headers["pagesize"]}`
         await axios.get(url)
             .then(response => {
                 client.setEx(`products-category-${req.params.name}-${req.headers["skip"]}`, REDIS_TIME, JSON.stringify(response.data))
