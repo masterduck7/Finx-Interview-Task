@@ -12,7 +12,12 @@ import Select from '@mui/material/Select';
 class App extends React.Component {
     constructor() {
         super()
-        this.state = ({ categories: [], productsFiltered: { "products": [] }, productData: {}, selectedCategory: 'All' })
+        this.state = ({
+            categories: [],
+            productsFiltered: { "products": [] },
+            productData: {},
+            selectedCategory: 'All'
+        })
     }
 
     getCategories = async () => {
@@ -39,16 +44,6 @@ class App extends React.Component {
         await axios.get('/products/category/' + name)
             .then(response => {
                 this.setState({ productsFiltered: response.data })
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
-    getProductById = async (id) => {
-        await axios.get('/products/' + id)
-            .then(response => {
-                this.setState({ productData: response.data })
             })
             .catch((error) => {
                 console.log(error)
