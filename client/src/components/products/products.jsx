@@ -2,6 +2,8 @@ const React = require('react');
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -17,9 +19,11 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '80vw',
+    height: '80vh',
     bgcolor: 'background.paper',
     border: '2px solid #000',
+    borderRadius: '10px',
     boxShadow: 24,
     p: 4,
 };
@@ -94,9 +98,18 @@ class Products extends React.Component {
                         <p>Category: {this.state.selectedProduct["category"]}</p>
                         <p>Thumbnail: {this.state.selectedProduct["thumbnail"]}</p>
                         <p>Images: </p>
-                        {this.state.selectedProduct["images"].map((image, id) => (
-                            <p key={id}>{image}</p>
-                        ))}
+                        <ImageList cols={3} rowHeight={164}>
+                            {this.state.selectedProduct["images"].map((image, id) => (
+                                <ImageListItem key={id}>
+                                    <img
+                                        src={`${image}?w=164&h=164&fit=crop&auto=format`}
+                                        srcSet={`${image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                        alt={id}
+                                        loading="lazy"
+                                    />
+                                </ImageListItem>
+                            ))}
+                        </ImageList>
                         <center>
                             <Button variant="contained" onClick={() => this.handleCloseModal()}>Close</Button>
                         </center>
