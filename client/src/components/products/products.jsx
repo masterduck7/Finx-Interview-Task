@@ -59,7 +59,7 @@ class Products extends React.Component {
         }
         await axios.get('/products', config)
             .then(response => {
-                this.setState({ productsFiltered: response.data, numberPages: (response.data["total"] / this.state.pageSize) })
+                this.setState({ productsFiltered: response.data, numberPages: Math.round(response.data["total"] / this.state.pageSize) })
             })
             .catch((error) => {
                 console.log(error)
