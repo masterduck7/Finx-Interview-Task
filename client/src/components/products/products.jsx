@@ -1,5 +1,8 @@
 const React = require('react');
 
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,33 +12,97 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
+
 class Products extends React.Component {
+    constructor() {
+        super()
+        this.state = ({
+            selectedProduct: { "id": null, "name": null, "images": [] },
+            modalDetails: false,
+        })
+    }
+
+    handleCloseModal = () => {
+        this.setState({ modalDetails: false });
+    }
+
+    handleOpenModal = (product) => {
+        this.setState({ modalDetails: true, selectedProduct: product })
+    }
+
     render() {
         return (
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">Title</TableCell>
-                            <TableCell align="center">Category</TableCell>
-                            <TableCell align="center">Rating</TableCell>
-                            <TableCell align="center">Price</TableCell>
-                            <TableCell align="center">Stock</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.props.productsFiltered["products"].map((product) => (
-                            <TableRow key={product["id"]}>
-                                <TableCell align="center">{product["title"]}</TableCell>
-                                <TableCell align="center">{product["category"]}</TableCell>
-                                <TableCell align="center">{product["rating"]}</TableCell>
-                                <TableCell align="center">{product["price"]}</TableCell>
-                                <TableCell align="center">{product["stock"]}</TableCell>
+            <div>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center">Title</TableCell>
+                                <TableCell align="center">Category</TableCell>
+                                <TableCell align="center">Rating</TableCell>
+                                <TableCell align="center">Price</TableCell>
+                                <TableCell align="center">Stock</TableCell>
+                                <TableCell align="center">Details</TableCell>
                             </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.props.productsFiltered["products"].map((product) => (
+                                <TableRow key={product["id"]}>
+                                    <TableCell align="center">{product["title"]}</TableCell>
+                                    <TableCell align="center">{product["category"]}</TableCell>
+                                    <TableCell align="center">{product["rating"]}</TableCell>
+                                    <TableCell align="center">{product["price"]}</TableCell>
+                                    <TableCell align="center">{product["stock"]}</TableCell>
+                                    <TableCell align="center">
+                                        <Button variant="contained" onClick={
+                                            () => this.handleOpenModal(product)
+                                        }>
+                                            Show details
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Modal
+                    open={this.state.modalDetails}
+                    onClose={this.handleCloseModal}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <p>Title: {this.state.selectedProduct["title"]}</p>
+                        <p>Description: {this.state.selectedProduct["description"]}</p>
+                        <p>Price: {this.state.selectedProduct["price"]}</p>
+                        <p>Discount Percentage: {this.state.selectedProduct["discountPercentage"]}</p>
+                        <p>Rating: {this.state.selectedProduct["rating"]}</p>
+                        <p>Stock: {this.state.selectedProduct["stock"]}</p>
+                        <p>Brand: {this.state.selectedProduct["brand"]}</p>
+                        <p>Category: {this.state.selectedProduct["category"]}</p>
+                        <p>Thumbnail: {this.state.selectedProduct["thumbnail"]}</p>
+                        <p>Images: </p>
+                        {this.state.selectedProduct["images"].map((image, id) => (
+                            <p key={id}>{image}</p>
                         ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        <center>
+                            <Button variant="contained" onClick={() => this.handleCloseModal()}>Close</Button>
+                        </center>
+                    </Box>
+                </Modal>
+            </div>
         )
     }
 }
