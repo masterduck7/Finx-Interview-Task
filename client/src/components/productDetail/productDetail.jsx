@@ -37,30 +37,30 @@ class ProductDetail extends React.Component {
                 <Box style={{ overflow: 'auto' }} sx={style}>
                     <Grid container spacing={2}>
                         <Grid xs={3}>
-                            <p>Title: {this.props.product["title"]}</p>
+                            <p><b>Title:</b> {this.props.product["title"]}</p>
                         </Grid>
                         <Grid xs={3}>
-                            <p>Price: {this.props.product["price"]} <b className='discount'>({this.props.product["discountPercentage"]} % OFF)</b></p>
+                            <p><b>Price:</b> {this.props.product["price"]} <b className='discount'>({this.props.product["discountPercentage"]} % OFF)</b></p>
                         </Grid>
                         <Grid xs={3}>
-                            <p>Stock: {this.props.product["stock"]}</p>
+                            <p><b>Stock:</b> {this.props.product["stock"]}</p>
                         </Grid>
                         <Grid xs={3}>
-                            <p>Rating: {this.props.product["rating"]}</p>
+                            <p><b>Rating:</b> {this.props.product["rating"]}</p>
                         </Grid>
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid xs={6}>
-                            <p>Description: {this.props.product["description"]}</p>
+                            <p><b>Description:</b> {this.props.product["description"]}</p>
                         </Grid>
                         <Grid xs={3}>
-                            <p>Brand: {this.props.product["brand"]}</p>
+                            <p><b>Brand:</b> {this.props.product["brand"]}</p>
                         </Grid>
                         <Grid xs={3}>
-                            <p>Category: {this.props.product["category"]}</p>
+                            <p><b>Category:</b> {this.props.product["category"]}</p>
                         </Grid>
                     </Grid>
-                    <p>Images: </p>
+                    <p><b>Images:</b> </p>
                     <ImageList sx={{ width: '80vw' }}>
                         {this.props.product["images"].map((image, id) => (
                             <ReactImageZoom key={id} img={image} {...props} />
