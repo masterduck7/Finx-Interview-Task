@@ -1,9 +1,10 @@
 const React = require('react');
+import ReactImageZoom from 'react-image-zoom';
+
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
 import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -21,6 +22,7 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+const props = { width: 300, zoomPosition: 'original' };
 
 
 class ProductDetail extends React.Component {
@@ -59,16 +61,9 @@ class ProductDetail extends React.Component {
                         </Grid>
                     </Grid>
                     <p>Images: </p>
-                    <ImageList sx={{ width: '60vw' }} cols={3} gap={4}>
+                    <ImageList sx={{ width: '80vw' }}>
                         {this.props.product["images"].map((image, id) => (
-                            <ImageListItem key={id}>
-                                <img
-                                    src={`${image}?fit=contain&auto=format`}
-                                    srcSet={`${image}?fit=contain&auto=format&dpr=2 2x`}
-                                    alt={id}
-                                    loading="lazy"
-                                />
-                            </ImageListItem>
+                            <ReactImageZoom key={id} img={image} {...props} />
                         ))}
                     </ImageList>
                     <center>
