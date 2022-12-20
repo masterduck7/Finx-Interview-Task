@@ -14,7 +14,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '80vw',
+    width: '90vw',
     height: '80vh',
     bgcolor: 'background.paper',
     border: '2px solid #000',
@@ -61,7 +61,7 @@ class ProductDetail extends React.Component {
                         </Grid>
                     </Grid>
                     <p><b>Images:</b> </p>
-                    <ImageList sx={{ width: '80vw' }}>
+                    <ImageList sx={{ width: '80vw' }} cols={3}>
                         {this.props.product["images"].map((image, id) => (
                             <ReactImageZoom key={id} img={image} {...props} />
                         ))}
